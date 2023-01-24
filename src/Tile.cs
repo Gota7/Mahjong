@@ -5,13 +5,15 @@ public enum TileSuite
     Bamboo,
     Dot,
     Wind,
-    Dragon
+    Dragon,
+    Count
 }
 
 // Standard mahjong tile.
 public class Tile
 {
-    public readonly Dictionary<TileSuite, byte> MAX_NUM_PER_SUITE = new Dictionary<TileSuite, byte>()
+    public const byte DUPLICATE_TILES_PER_SET = 4;
+    public static readonly Dictionary<TileSuite, byte> MAX_NUM_PER_SUITE = new Dictionary<TileSuite, byte>()
     {
         { TileSuite.Number, 9 },
         { TileSuite.Bamboo, 9 },
@@ -35,7 +37,10 @@ public class Tile
     // Create a tile.
     public Tile(TileSuite suite, byte number, bool upsideDown = false)
     {
-        if (number < 1 || number > MAX_NUM_PER_SUITE[suite]) throw new System.ArgumentOutOfRangeException();
+        if ((int)suite > (int)TileSuite.Count
+            || number < 1
+            || number > MAX_NUM_PER_SUITE[suite]
+        ) throw new System.ArgumentOutOfRangeException();
         m_Type = (byte)((int)suite * 10 + number);
         if (upsideDown) m_Type |= 0x80;
     }

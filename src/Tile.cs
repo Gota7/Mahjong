@@ -24,16 +24,20 @@ public class Tile
     private byte m_Type;
 
     // Suite of a tile.
-    public TileSuite Suite => (TileSuite)(m_Type / 10);
+    public TileSuite Suite => (TileSuite)((m_Type & 0x7F) / 10);
 
     // Number of a tile.
-    public byte Number => (byte)(m_Type % 10);
+    public byte Number => (byte)((m_Type & 0x7F) % 10);
+
+    // If tile is upside down.
+    public bool UpsideDown => (m_Type & 0x80) > 0;
 
     // Create a tile.
-    public Tile(TileSuite suite, byte number)
+    public Tile(TileSuite suite, byte number, bool upsideDown = false)
     {
         if (number < 1 || number > MAX_NUM_PER_SUITE[suite]) throw new System.ArgumentOutOfRangeException();
         m_Type = (byte)((int)suite * 10 + number);
+        if (upsideDown) m_Type |= 0x80;
     }
 
 }

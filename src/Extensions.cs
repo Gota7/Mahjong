@@ -37,6 +37,7 @@ static class Extensions
     // Return elements from the back of the list. The first element returned was the last one.
     public static List<T> Pop<T>(this IList<T> list, int count = 1)
     {
+        if (count < 1) throw new ArgumentOutOfRangeException();
         List<T> ret = new List<T>();
         for (int i = 0; i < count; i++)
         {
